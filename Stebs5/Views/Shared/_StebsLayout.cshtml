@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Stebs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Icons/favicon.png" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/stebscss")
+    @Scripts.Render("~/bundles/stebs")
+    <script src="/signalr/hubs"></script>
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4F04EF35-3566-498A-971E-99BDB2269816}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProcessorSimulation</RootNamespace>
+    <AssemblyName>ProcessorSimulation</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.13.5.0\lib\net40-client\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Alu.cs" />
+    <Compile Include="AluCmd.cs" />
+    <Compile Include="Device\DefaultDevice.cs" />
+    <Compile Include="Device\DeviceManager.cs" />
+    <Compile Include="Device\IDevice.cs" />
+    <Compile Include="Device\IDeviceManager.cs" />
+    <Compile Include="Device\IDeviceUpdate.cs" />
+    <Compile Include="Device\IDeviceView.cs" />
+    <Compile Include="IAlu.cs" />
+    <Compile Include="IProcessor.cs" />
+    <Compile Include="IProcessorSession.cs" />
+    <Compile Include="IProcessorState.cs" />
+    <Compile Include="IRam.cs" />
+    <Compile Include="IRamSession.cs" />
+    <Compile Include="IReadOnlyRam.cs" />
+    <Compile Include="IRegister.cs" />
+    <Compile Include="MpmParser\IMpm.cs" />
+    <Compile Include="MpmParser\IMpmFileParser.cs" />
+    <Compile Include="MpmParser\IMpmParser.cs" />
+    <Compile Include="MpmParser\Instruction.cs" />
+    <Compile Include="MpmParser\DataInput.cs" />
+    <Compile Include="MpmParser\Destination.cs" />
+    <Compile Include="MpmParser\IInstruction.cs" />
+    <Compile Include="MpmParser\IMicroInstruction.cs" />
+    <Compile Include="MpmParser\JumpCriteria.cs" />
+    <Compile Include="MpmParser\MicroInstruction.cs" />
+    <Compile Include="MpmParser\Mpm.cs" />
+    <Compile Include="MpmParser\MpmFileParser.cs" />
+    <Compile Include="MpmParser\MpmParsingException.cs" />
+    <Compile Include="MpmParser\NextAddress.cs" />
+    <Compile Include="MpmParser\OperandType.cs" />
+    <Compile Include="MpmParser\ReadWrite.cs" />
+    <Compile Include="MpmParser\Source.cs" />
+    <Compile Include="Processor.cs" />
+    <Compile Include="IProcessorSimulator.cs" />
+    <Compile Include="ProcessorSimulator.cs" />
+    <Compile Include="ProcessorState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ram.cs" />
+    <Compile Include="Register.cs" />
+    <Compile Include="Registers.cs" />
+    <Compile Include="SimulationState.cs" />
+    <Compile Include="SimulationStepSize.cs" />
+    <Compile Include="StatusRegister.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CDProcessorSimulator.cd" />
+    <None Include="Resources\DECODER.data">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\INSTRUCTION.data">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Resources\Microcode V4.1.3.xlsm" />
+    <None Include="Resources\MNEMONICS.list" />
+    <None Include="Resources\ROM1.data">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ROM2.data">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

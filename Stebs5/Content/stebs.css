@@ -1,0 +1,1455 @@
+﻿/*
+    Authors:  JP, SAM, JN, PS
+    Project: https://bitbucket.org/JoelNussbaum/stebs
+
+    1. General Style
+    1.2 Font-Awesome (icons)
+    2. Top bar
+    3. Left Sidebars
+    4. Bottom bar
+    5. Coding View
+    6. Registers
+    7. Register Watches
+    8. Filemanagement
+    9. CodeMirror external changes
+    10. Status Message Box
+
+*/
+
+/* 1. General Style */
+
+html, body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body {
+    background-color: #333;
+    width: 100%;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.changed {
+    background-color: yellow;
+}
+
+.open-link-vertical {
+    left: 112%;
+    width: 30px;
+    position: absolute;
+}
+
+.open-link-verticalArchitecture {
+    left: 100%;
+    width: 30px;
+    position: absolute;
+}
+
+.open-link-verticalDevices {
+    left: 380px;
+    width: 30px;
+    position: absolute;
+}
+
+.open-link-verticalCloseAll {
+    left: 0;
+    width: 30px;
+    position: absolute;
+}
+
+.open-link-vertical button {
+    height: 100%;
+    width: 30px;
+    background-repeat: no-repeat;
+}
+
+.open-link-verticalArchitecture button {
+    height: 100%;
+    width: 30px;
+    background-repeat: no-repeat;
+}
+
+.open-link-verticalDevices button {
+    height: 100%;
+    width: 30px;
+    background-repeat: no-repeat;
+}
+
+.open-link-verticalCloseAll button {
+    height: 100%;
+    width: 30px;
+    background-repeat: no-repeat;
+}
+
+.open-link button {
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+.open-link-horizontal {
+    position: relative;
+    box-sizing: border-box;
+    height: 25px;
+    width: 100%;
+    font-size: 14px;
+}
+
+.open-link-horizontal button {
+    height: 100%;
+    width: 100%;
+    text-align: left;
+    padding-left: 40px;
+}
+
+.open-link-horizontal button span {
+    display: inline-block;
+    position: relative;
+}
+
+#pause:enabled + #continue:disabled,
+#pause:disabled {
+    display: none;
+}
+
+#openOutput i.fa-info-circle {
+    position: absolute;
+    left: 15px;
+    top: 5px;
+}
+
+.button-3d {
+    /* box-shadow for 3D effect */
+    box-shadow: -1px 1px #686868, 0 3px 3px #686868, 2px 1px 3px #686868, 0 0 #686868;
+}
+
+.button-3d:active {
+    /* box-shadow and transform for 3D effect */
+    box-shadow: -1px 0 #686868, 0 0 3px #686868, 2px 0 3px #686868, 0 0 #686868;
+    transform: translateY(1px);
+}
+
+/* 1.2 Font-Awesome (icons) */
+
+.stebs-fa-stack {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 120%;
+    vertical-align: middle;
+}
+
+.awesomeEntity, .awesomeAction {
+    color: white;
+}
+
+.awesomeEntity {
+    /*text-shadow: 2px 3px 5px black;*/
+    font-size: 120%;
+}
+
+.awesomeAction {
+    font-size: 80%;
+    margin: 40% 0px 0px 50%;
+    text-shadow: -1px 0 #686868, 0 2px 3px #686868, 2px 0 3px #686868, 0 -1px #686868;
+}
+
+/* awesomeBlue */
+span.awesomeBlue i {
+    color: #2E5888;
+}
+
+    span.awesomeBlue i.awesomeAction {
+        text-shadow: -1px 0 white, 0 2px 3px black, 2px 0 3px black, 0 -1px white;
+    }
+/* .fa-stack-label on a <span>*/
+span.stebs-fa-stack span.fa-stack-label {
+    margin-left: -35%;
+    font-size: 70%;
+    font-weight: bold;
+}
+
+/* 2. Top bar */
+
+#codingTopBar {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 7px 10px;
+    background-color: #aaa;
+    color: white;
+    height: 38px;
+    overflow: hidden;
+}
+
+#menubar .dropdownMenubar {
+    margin-top: -2px;
+}
+
+#menubar .dropdownMenubar {
+    margin-right: 0;
+    margin-left: 0;
+}
+#menubar .dropdownMenubar:first-of-type {
+    margin-left: 0;
+}
+
+#filename {
+    padding-top: 2px;
+    min-width: 10%;
+    max-width: 30%;
+    font-style: italic;
+}
+
+#filename-star {
+    display: none;
+    margin-left: 15px;
+}
+
+.spun {
+    margin-left: 7px;
+    margin-right: 11px;
+    border-left: 2px solid #666666;
+    height: 56px;
+}
+
+.simulationControl {
+    float: right;
+}
+
+.simulationControl {
+    height: 24px;
+}
+
+#codingTopBar .simulationControl button {
+    box-sizing: border-box;
+    height: 24px;
+    width: 24px;
+    padding: 1px;
+    border: 1px solid transparent;
+    background-position: center center;
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-radius: 5px;
+    transition: background-size linear 0.25s;
+}
+
+#codingTopBar button {
+    margin: 0 10px 0 0;
+}
+
+
+#codingTopBar .simulationControl button:enabled:hover:not(#assemble) {
+    background-size: 100% 100%;
+    /*background-color: rgba(255,255,255, 0.25);*/
+    -ms-transform: scale(1.25);
+    -webkit-transform: scale(1.25);
+    -moz-transform: scale(1.25);
+    transform: scale(1.25);
+    border: 1px solid white;
+}
+
+#codingTopBar .simulationControl #debugTempo,
+#codingTopBar .simulationControl #startdebug,
+#debugTempo:enabled:hover,
+#startdebug:enabled:hover {
+    padding-left: 0;
+}
+
+#assemble {
+    color: #ffffff !important;
+    background-color: #5170a6 !important;
+    border-color: #466db2 !important;
+    border-radius: 10px;
+    width: 100px !important;
+    font-weight: bold;
+}
+
+#assemble:hover,
+#assemble:focus {
+    color: #ffffff;
+    background-color: #466db2 !important;
+    border-color: #fff !important;
+}
+
+    #assemble:active {
+        color: #5170a6 !important;
+        background-color: #fff !important;
+        border-color: #5170a6 !important;
+    }
+
+#assemble:enabled {
+    /*background-image: url(/Icons/assemble.png);*/
+}
+
+#debug:enabled {
+    /* background-image: url(/Icons/step-by-step.png);*/
+    color: #ffffff;
+}
+
+#debug:disabled {
+    /*background-image: url(/Icons/step-by-step-grey.png);*/
+    color: gray;
+}
+
+#start:enabled {
+    /*background-image: url(/Icons/Play-icon.png);*/
+    color: #ffffff;
+}
+
+#start:disabled {
+    /*background-image: url(/Icons/Play-icon-grey.png);*/
+    color: gray;
+}
+
+#pause:enabled {
+    /*background-image: url(/Icons/Pause-icon.png);*/
+    color: #ffffff;
+}
+
+#pause:disabled {
+    /*background-image: url(/Icons/Pause-icon-grey.png);*/
+    color: gray;
+}
+
+#continue:enabled {
+    /*background-image: url(/Icons/Play-icon.png);*/
+    color: #ffffff;
+}
+
+#continue:disabled {
+    /*background-image: url(/Icons/Play-icon-grey.png);*/
+    color: gray;
+}
+
+#stop:enabled {
+    /*background-image: url(/Icons/Stop-icon.png);*/
+    color: red;
+}
+
+#stop:disabled {
+    /*background-image: url(/Icons/Stop-icon-grey.png);*/
+    color: gray;
+}
+
+#reset:enabled {
+    /*background-image: url(/Icons/reset.png);*/
+    color: #ffffff;
+}
+
+#reset:disabled {
+    /*background-image: url(/Icons/reset-grey.png);*/
+    color: gray;
+}
+
+#undoStep:enabled {
+    /*background-image: url(/Icons/undo-icon.png);*/
+    color: #ffffff;
+}
+
+#undoStep:disabled {
+    /*background-image: url(/Icons/undo-icon-grey.png);*/
+    color: gray;
+}
+
+#doStep:enabled {
+    /*background-image: url(/Icons/redo-icon.png);*/
+    color: #ffffff;
+}
+
+#doStep:disabled {
+    /*background-image: url(/Icons/redo-icon-grey.png);*/
+    color: gray;
+}
+
+
+#speedSlider {
+    width: 98%;
+}
+
+#open:enabled {
+    background-image: url(/Icons/open-file-icon.png);
+}
+
+#save:enabled {
+    background-image: url(/Icons/Save-icon.png);
+}
+
+#new:enabled {
+    background-image: url(/Icons/new-file-icon.png);
+}
+
+.accountLinks {
+    padding-top: 2px;
+}
+
+.fileControl {
+     float: left;
+}
+
+#codingTopBar img {
+    width: 20px;
+    height: 20px;
+}
+
+.accountLinks a {
+    margin-left: 5px;
+    margin-right: 10px;
+    color: white;
+}
+
+/**
+*   [Dropdown of simulationcontrol]
+*   Simulationcontrol := Buttons to the top right.
+*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.simulationControl .dropdown {
+    position: initial !important; /* required */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    /*min-width: 160px;*/
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    margin-top: 7px;
+    z-index: 7000;
+}
+
+#tempo + .dropdown-content{
+    right: calc(24px * 7);
+    width: 196px;
+}
+
+#debugTempo + .dropdown-content {
+    right: 15px;
+}
+
+.dropdown .closed {
+    display: none;
+}
+
+.dropdown .open {
+    display: block;
+}
+
+#codingTopBar .simulationControl .dropdown .dropdown-btn {
+    display: inline-block;
+    background-color: gray;
+    color: blue;
+    border: 1px solid blue;
+    width: 33%;
+}
+
+.dropdown .dropdown-btn:hover {
+    background: blue;
+    color: white;
+    border: 1px solid white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown .dropdown-btn:active {
+    font-weight: bold;
+}
+
+/**
+*   [Dropdown of menubar]
+*/
+.dropbtnMenubar {
+    background-color: #AAAAAA;
+    color: white;
+    padding: 4px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+.dropbtnMenubar, 
+.dropdown-contentMenubar a {
+    cursor: pointer;
+}
+
+.dropdownMenubar {
+    display: inline-block;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
+}
+
+.dropdown-contentMenubar {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 9000;
+}
+
+.dropdown-contentMenubar a {
+    color: black;
+    padding: 7px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-contentMenubar a:hover {
+    background-color: #d1d1d1
+}
+
+.dropdown-contentMenubar .dropdown-headerMenubar {
+    color: lightgray;
+    padding: 7px;
+    text-decoration: none;
+    display: block;
+    margin: 0;
+}
+
+.dropdown-contentMenubar hr {
+    margin: 0;
+    border: 1px solid lightgray;
+}
+
+.dropdownMenubar:hover .dropdown-contentMenubar {
+    display: block;
+}
+
+.dropdownMenubar:hover .dropbtnMenubar {
+    background-color: #888888 !important;
+}
+
+/** [n-Button - Toggle Switch]
+ *  source: https://thestizmedia.com/radio-buttons-as-toggle-buttons-with-css/
+ *  Tutorial: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp */
+.switch-field {
+    font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+    padding: 8px;
+    overflow: hidden;
+}
+
+.switch-title {
+    margin-bottom: 6px;
+    color: black;
+}
+
+.switch-field input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+}
+
+.switch-field label {
+    float: left;
+}
+
+.switch-field label {
+    display: inline-block;
+    width: 60px;
+    background-color: #e4e4e4;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    text-shadow: none;
+    padding: 6px 14px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.switch-mode-horizontal label {
+    display: block !important;
+    float: none;
+}
+
+.switch-field label:hover {
+    cursor: pointer;
+}
+
+.switch-field input:checked + label {
+    background-color: #A5DC86;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.switch-field label:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+    border-radius: 0 4px 4px 0;
+}
+
+.switch-mode-horizontal label:first-of-type {
+    border-radius: 4px 4px 0 0;
+}
+
+.switch-mode-horizontal label:last-of-type {
+    border-radius: 0 0 4px 4px;
+}
+
+/* 3. Left Sidebars */
+
+#closeAllSidePanelsContainer {
+    z-index: 6500;
+    margin-top: 5px;
+    margin-left: 0;
+    font-size: 110%;
+    cursor: pointer;
+}
+
+#closeAllSidePanelsContainer:hover {
+    background-color: rgba(20, 62, 214, 0.5);
+}
+
+#closeAllSidePanelsContainer button {
+    z-index: 6499;
+    color: white;
+}
+
+#closeAllSidePanelsContainer button:hover {
+    height: 24px;
+    width: 24px;
+    color: green;
+    letter-spacing: -2px;
+}
+
+#closeAllSidePanelsContainer button i.fa:hover {
+    -ms-transform: scale(1.25);
+    -webkit-transform: scale(1.25);
+    -moz-transform: scale(1.25);
+    transform: scale(1.25);
+}
+
+#closeAllSidePanelsContainer span.stebs-fa-stack * {
+    margin: 0;
+}
+
+#ram {
+    z-index: 5010;
+    left: -393px;
+    width: 350px;
+}
+
+#devices {
+    z-index: 5005;
+    left: -380px;
+    width: 380px;
+}
+
+#ram, #architecture, #devices {
+    position: absolute;
+    height: 100%;
+}
+
+.ram-container {
+    width: 393px;
+    height: 100%;
+    background-color: #444;
+}
+
+.devices-container {
+    width: 380px;
+    height: 100%;
+    background-color: #444;
+    overflow-y: auto;
+}
+
+#ram .open-link {
+    top:30px; /*0px*/
+    margin-top:10px;
+    height: 39px;
+    background-color: #333333;
+}
+
+#ram .open-link button {
+    background-image: url(/Images/Ram.png);
+    padding-top:10px
+}
+
+#ram .open-link button:hover, #ram .open-link button:active {
+    background-image: url(/Images/RamHighlight.png);
+}
+
+#devices .open-link {
+    top: 95px;
+    height: 69px;
+    background: #333333;
+}
+
+#devices .open-link button {
+    background-image: url(/Images/Devices.png);
+}
+
+#devices .open-link button:hover, #devices .open-link button:active {
+    background-image: url(/Images/DevicesHighlight.png);
+}
+
+.open-link.open,
+.open-window.open {
+    background: #5170a6 !important;
+}
+
+#simulation {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#architecture {
+    position: absolute;
+    overflow: visible !important;
+    z-index: 5000;
+    width: 570px;
+    left: -570px;
+}
+
+.architecture-container {
+    position: relative;
+    float: left;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 570px;
+    /* height: 100%; Adrian*/
+    background-color: #333;
+    overflow-y: auto;
+}
+
+#speedLimitReached {
+    color: white;
+    overflow: hidden;
+    display: none;
+    width: 90%;
+    margin-left: 4%;
+    margin-top: 5%;
+    background: salmon;
+    border: 2px solid black;
+    padding: 4px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+
+#architectureDragbar{
+   position: absolute;
+   z-index: 1000;
+   right: 0px;
+   top: 0;
+   background-color: #222;
+   height: 100%;
+   width: 3px;
+   cursor: col-resize;
+}
+
+#architecture .open-link {
+    top: 180px;
+    height: 109px;
+}
+
+#architecture .open-link button {
+    background-image: url(/Images/Architecture.png);
+}
+
+#architecture .open-link button:hover, #architecture .open-link button:active {
+    background-image: url(/Images/ArchitectureHighlight.png);
+}
+
+#architecture .open-window {
+    top: 289px;
+    height: 23px;
+    line-height: 0px;
+    background-repeat: no-repeat;
+}
+
+#architecture .open-window button {
+    background-image: url(/Images/NewWindow.png);
+    top: 269px;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+#architecture .open-window button:hover, #architecture .open-window button:active {
+    background-image: url(/Images/NewWindowHighlight.png);
+}
+
+#canvas {
+    position: relative; /*Adrian*/
+    width: 1397px;
+    height: 914px;
+}
+
+#canvasMpm, #canvasOpD {
+    position: absolute;
+    table-layout: fixed;
+    background-color: white;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    padding-top: 0px;
+    border-style:solid;
+    border-top-style: initial;
+    border-width: 1px; /*If you change this also change the staticMpmTitle and staticOpdTitle margin-left by the same amount*/
+}
+
+#canvasMpmTable, #canvasOpDTable {
+    width: 100%;
+    table-layout: auto;
+    font-size: inherit;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#canvasMpmTable tr.active, #canvasOpDTable tr.active {
+    background-color: yellow; /*#FFCC33 is changed color, but the OPD doesn't change on every micro step.*/
+}
+
+#canvasdiv {
+    position: relative;
+}
+
+.tabletop{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    height: 0;
+    width: 100%;	
+}
+
+.tablebottom{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    height: 0;
+    width: 100%;	
+}
+
+#staticMpmTitle, #staticOpdTitle {
+    position: absolute;
+    z-index: 1000;
+    background-color: #ffffff;
+    width: 0%;
+    margin: 0 0px 0 2px;
+    padding: 0px 1px 0px 0px;
+    white-space: nowrap;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.titlecell {
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    font-weight: bold;
+    display: inline-block;
+    border-left: initial;
+    margin: 0 0px 0px 0px; /*top right bottom left;*/
+    padding: 0 0px 1px 0px;
+    white-space: nowrap;
+}
+
+.tdsmall {
+    width: 5%;
+}
+
+.tdbig {
+    width: 12%;
+}
+
+/* device manager */
+#deviceSlot {
+    width: 15%;
+}
+
+/* class for all devices */
+.device {
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-left: 35px;
+    width: 315px;
+    padding-left: 5px;
+    overflow: hidden;
+    position: relative;
+    top: 10px;
+    background-color: white;
+}
+
+.device:last-of-type {
+    margin-bottom: 75px;
+}
+
+.device p {
+    margin-top: 6px;
+    margin-left: 4px;
+    font-weight: normal;
+}
+
+.addDevice {
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-left: 35px;
+    width: 312px;
+    padding-left: 8px;
+    padding-bottom: 5px;
+    overflow: hidden;
+    /*/position: relative;*/
+    top: 10px;
+    background-color: white;
+    /* scrollable devices side bar */
+    position: sticky;
+    z-index: 5000;
+    outline-style: solid;
+    outline-color: #444;
+    outline-width: 10px;
+}
+
+.addDevice p {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    width: 300px;
+}
+
+.addDeviceLabel{
+    top: 4px;
+    left: 55%;
+    color: Black;
+    font-size: 16px;
+}
+
+.addDeviceLBracket {
+    font-size: 33px;
+    margin-right: 3px;
+}
+
+.addDeviceRBracket{
+    font-size: 33px;
+    margin-left: 3px;
+}
+
+.addDeviceDropdown{
+    height: 17px;
+    bottom: 3px;
+    position: relative;
+}
+
+.addDeviceAdd {
+    margin-left: 68px;
+    color: white;
+    background-color: #5170a6;
+    border: 1px solid #5170a6;
+    padding-top: 2px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    bottom: 2px;
+    position: relative;
+    margin-bottom: 6px;
+    margin-top: 20px;
+}
+
+.addDeviceAdd:hover {
+    color: #5170a6;
+    background-color: white;
+}
+
+.ramTable {
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    padding-left: 5px;
+    overflow: hidden;
+    position: relative;
+    top: 10px;
+    background-color: white;
+}
+
+.ramTable p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+#ramHeader {
+    overflow: hidden;
+    border-bottom: 1px solid black;
+    padding-left: 2px;
+}
+/* RAM device style */
+#ramDevice #hideShowRam {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    border-top: 1px solid black;
+}
+
+#ramDevice #hideShowRam:hover {
+    background-color: rgba(20, 62, 214, 0.25);
+}
+
+#ramDevice #ramTable {
+    padding-left: 2px;
+}
+
+#ramDevice table {
+    position: relative;
+    border-spacing: 2px;
+    border-collapse: separate;
+    font-size: 10.9pt;
+    font-family: Consolas;
+    text-transform: uppercase;
+}
+
+#ramDevice table, th {
+    text-align: center;
+}
+
+#ramDevice table, td {
+    padding-right: 2px;
+    padding-bottom: 2px;
+}
+
+#ramDevice #bold-elem {
+    font-weight: bold;
+    color: #aa1111;
+    padding: 0 5px 0 0;
+}
+
+#ramDevice {
+    padding-left: 0;
+}
+
+#ramDevice .stackPointer {
+    background-color: lightblue;
+}
+
+#ramDevice .instructionPointer {
+    background-color: lightcoral;
+}
+
+/* 4. Bottom bar */
+
+.output {
+    height: 150px;
+}
+
+.output-container {
+    position: relative;
+    display: none;
+    width: 100%;
+    height: calc(100% - 3px);
+    z-index: 4000;
+    overflow-y: auto;
+}
+
+.output-container p {
+    margin: 0 0 0 5px;
+}
+
+.output .open-link {
+    background-color: #aaa;
+    color: white;
+}
+
+#outputDragbar{
+   background-color: #777;
+   height: 3px;
+   width: 100%;
+   cursor: row-resize;
+}
+
+
+/* 5. Coding View */
+
+#codingView {
+    position: relative;
+    z-index: 3000;
+    height: 100%;
+    width: calc(100% - 30px);
+    left: 30px;
+}
+
+#codingFrame {
+    height: calc(100% - 63px);
+    min-height: 110px;
+}
+
+.breakpoint {
+    color: #aa1111;
+    margin-left: 1px;
+    margin-top: -10px;
+    font-size: 200%;
+}
+
+.breakpoint-text {
+    position: absolute;
+    top: 2px;
+    left: 5.7px;
+    color: #fafafa;
+    font-size: 80%;
+}
+
+.breakpoint-container {
+    overflow:hidden;
+    height: 17px;
+}
+
+.bpedit-text{
+	padding:1px 0 1px 0;
+	margin:0 0 0 15px;
+}
+
+#bpedit-input {
+    margin-left: 15px;
+    width: 102px;
+}
+
+#bp-value-setter {
+	position:absolute;
+    z-index: 3000;
+	height: 48px;
+	width: 140px;
+    top: 0px;
+    background-color: #bbb;
+	border-style: solid;
+	border-width: 1px;
+    visibility: hidden;
+}
+
+/* 6. Registers */
+
+.watcher-container {
+    position: relative;
+    /*width: calc(100% - 220px);*/ /*#stefan*/
+    /* height: 100%; Adrian*/
+    margin: 20px; /*#stefan*/
+}
+
+.addWatches {
+    display: none;
+}
+
+
+
+.watcher-container #ram-watcher-elements {
+    float: left;
+    max-width: calc(100% - 68px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#ram-watcher-elements #watch-Status a {
+    word-spacing: 100%;
+    letter-spacing: 1px;
+}
+
+.watcher-container #architecture-watcher-elements {
+    float: left;
+    max-width: calc(100% - 68px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 8px;
+}
+
+.watcher-container .watcher {
+    float: left;
+    position: relative;
+    border: 1px solid black;
+    min-width: 56px;
+    height: 40px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    margin: 2px;
+    text-transform: uppercase;
+    background-color: white;
+}
+
+.watcher-container .watcher button {
+    position: absolute;
+    right: -3px;
+    top: -3px;
+    border: 0px;
+    background-color: transparent;
+}
+
+.watcher-container .watcher a {
+    text-decoration: none;
+    color: black;
+}
+
+.watcher-container .watcher a.registerLink {
+    text-decoration: none;
+    color: ghostwhite;
+}
+
+.watcher-container .watcher .changed {
+    background-color: #FFCC33;
+}
+
+.watcher-container .watcher a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.watcher-container .watcher p {
+    margin: 1px;
+    margin-bottom: 0px;
+}
+
+.watcher-container #ram-addWatchElement,
+.watcher-container #architecture-addWatchElement {
+    float: right;
+    position: relative;
+    display: block;
+}
+
+.watcher-container #architecture-addWatchElement {
+    margin-top: 10px;
+}
+
+.watcher-container #ram-addWatchElement button,
+.watcher-container #architecture-addWatchElement button {
+    right: 0px;
+    top: 0px;
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.watcher-container #ram-addWatchElement h1,
+.watcher-container #architecture-addWatchElement h1 {
+    position: relative;
+    margin: 0px;
+}
+
+/* 7. Register watches */
+
+#ram-addWatches,
+#architecture-addWatches {
+    /*display: none;*/
+    z-index: 9000;
+    position: absolute;
+    right: 60px;
+    top: -8px;
+    width: 49px;
+    min-height: 20px;
+    background-color: #5170a6;
+    border: 1px solid black;
+   /* border-radius: 3px;
+    box-shadow: -2px 8px 16px 0px rgba(0,0,0,0.75);*/
+    padding: 5px;
+}
+
+.addWatches span {
+    font-weight: bold;
+    padding-left: 5px;
+    color: white;
+    cursor: no-drop;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
+}
+
+.addWatches a {
+    padding-left: 5px;
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding-bottom: 5px;
+}
+
+.addWatches a:hover {
+    background-color: ghostwhite;
+}
+
+.addWatches a:hover:first-of-type {
+    border-radius: 3px 3px 0 0;
+}
+
+.addWatches a:hover:last-of-type {
+    border-radius: 0 0 3px 3px;
+}
+
+/* 8. FileManagement */
+
+#fileSystem {
+    z-index: 5000;
+    display: none;
+    position: absolute;
+    left: 37%;
+    top: 37%;
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+#fileSystem #folderPath {
+    margin-left: 5px;
+    height: 28px;
+}
+
+#fileSystem #files{
+    width: 100%;
+    height: 244px;
+    overflow-y: auto;
+}
+
+#fileSystem #files .file-node {
+    width: 100%;
+    height: 20px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+}
+
+#fileSystem #files .file-node:hover {
+    background-color:ghostwhite;
+}
+
+#fileSystem #files .file-node .openLink {
+    width: calc(100% - 80px);
+    display: inline-block;
+    text-decoration: none;
+}
+
+#fileSystem #files .file-node input {
+    width: calc(100% - 86px);
+    display: inline-block;
+}
+
+#fileSystem .addElement button {
+    width: 49%;
+    background-color: none;
+    border: 0px none;
+}
+
+#fileSystem #closeFileSystem {
+    float: right;
+    background: none;
+    border: solid 1px white;
+}
+
+#fileSystem #closeFileSystem:hover {
+    background: grey;
+}
+
+/* Icons */
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background-color: transparent;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.confirmDeleteMany {
+    display: none;
+}
+
+.cancelDeleteMany {
+    display: none;
+}
+
+.fileIcon {
+    background-image: url(/Icons/file-text-icon.png);
+}
+
+.folderIcon {
+    background-image: url(/Icons/folder-close-icon.png);
+}
+
+.editIcon {
+    background-image: url(/Icons/Pencil-icon.png);
+}
+
+.removeIcon {
+    background-image: url(/Icons/trash-icon.png);
+}
+
+.removeManyIcon {
+    background-image: url(/Icons/removeMany-icon.png);
+}
+
+.removeManyIconSelected {
+    background-image: url(/Icons/removeMany-iconSelected.png);
+}
+
+.okIcon {
+    background-image: url(/Icons/ok-icon.png);
+}
+
+.cancelIcon {
+    background-image: url(/Icons/delete-2-icon.png);
+}
+
+.saveIcon {
+    background-image: url(/Icons/Save-icon.png);   
+}
+
+/* 9. CodeMirror external changes */
+
+.CodeMirror {
+    height: 100% !important;
+    font-family: Consolas !important;
+    font-size: 11pt !important;
+}
+
+#codingFrame.running .CodeMirror-activeline-background {
+    background-color: greenyellow !important;
+}
+
+/*  10. Status Message Box  */
+
+#statusMsgBox {
+    z-index: 5000;
+    display: none;
+    position: absolute;
+    left: 44%;
+    top: 32%;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(0,0,0,0.75);
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    color: wheat;
+    font-size: 36px;
+}
+
+#statusMsgBox i.fa {
+    font-size: 88px;
+}
