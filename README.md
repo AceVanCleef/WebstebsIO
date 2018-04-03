@@ -10,7 +10,7 @@ Build Server (branch master) [![Build status](https://ci.appveyor.com/api/projec
 
 ## Project Report
 
-This project's goal was to improve the current usability of Webstebs, an online micro processor simulator of the FHNW Technik in Windisch CH. Read the [project report](https://github.com/AceVanCleef/WebstebsIO/raw/master/IP5_IODevices_Bericht.pdf) (download) to get an indepth overview what it is about and how we approached this project.
+This project's goal was to improve the current usability of Webstebs, an online micro processor simulator of the FHNW Technik in Windisch CH. It allows students to learn and discover how computer hardware can be programmed using assembler. Read the [project report](https://github.com/AceVanCleef/WebstebsIO/raw/master/IP5_IODevices_Bericht.pdf) (download) to get an indepth overview what it is about and how we approached this project.
 
 ### Used technologies
 
