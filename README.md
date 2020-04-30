@@ -4,7 +4,7 @@ Build Server (branch master) [![Build status](https://ci.appveyor.com/api/projec
 
 ### Summary
 
-For German, read here.
+For German, read [here](https://web.fhnw.ch/technik/projekte/i/ip518/wohlgensinger-buerki/index.html).
 
 This project's goal was to improve the current usability of Webstebs, an online microprocessor simulator of the [UAS Nothwestern Switzerland](https://www.fhnw.ch/de/studium/technik). It allows students to learn and discover how computer hardware can be programmed using assembler. Furthermore, they are now able to choose from newly developed simulated hardware devices, such as a keyboard, text console and a number display, which extend the capabilities of Webstebs and the range of exercises students can perform. All usability improvements had been tested and proven via usability tests. Read the [project report](https://github.com/AceVanCleef/WebstebsIO/raw/master/IP5_IODevices_Bericht.pdf) (download) to get an in-depth overview what it is about and how we approached this project.
 
